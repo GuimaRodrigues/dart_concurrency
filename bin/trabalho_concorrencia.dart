@@ -108,8 +108,6 @@ _logicaToy(SendPort message) {
 
 _multiplicaMatriz(
     externalIsolate, posicaoMatriz, novaMatrix, matrix1, matrix2) {
-  Stopwatch tempoPorIsolate = new Stopwatch()..start();
-
   int tamanhoMatriz1 = novaMatrix.length;
   for (int j = 0; j < tamanhoMatriz1; j++) {
     num soma = 0;
@@ -123,7 +121,7 @@ _multiplicaMatriz(
   }
 
   print(
-      "Isolate $posicaoMatriz  e nova parte de matriz ${novaMatrix[posicaoMatriz]} e demorou ${tempoPorIsolate.elapsed}");
+      "Isolate $posicaoMatriz  e nova parte de matriz ${novaMatrix[posicaoMatriz]}");
 
   return novaMatrix[posicaoMatriz];
 }
