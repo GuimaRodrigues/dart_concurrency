@@ -2,7 +2,7 @@ import 'dart:isolate';
 import 'dart:math';
 
 void main(List<String> arguments) async {
-  int tamanhoMatriz = 1000, linhas = 4;
+  int tamanhoMatriz = 1000, linhas = 5;
   List<int> novaMatrixParalelo =
       List.generate(linhas, (index) => 0, growable: true);
   List<int> novaMatrixSequencial =
@@ -69,7 +69,7 @@ class ToyExemplo {
       novaMatrixParalelo[i] = await retorno;
     }
 
-    return await retorno;
+    return retorno;
   }
 
   multiplicaMatrizSequencial(novaMatrixSequencial, matrix1, matrix2) async {
@@ -95,19 +95,21 @@ class ToyExemplo {
 _logicaToy(SendPort message) {
   var isolatePrivatePort = ReceivePort();
   message.send(isolatePrivatePort.sendPort);
-
   isolatePrivatePort.listen((message) {
     var externalIsolate = message['isolate'];
     List<int> matrix1 = message['matrix1'];
     List<int> matrix2 = message['matrix2'];
     List<int> novaMatrix = message['novaMatrix'];
     int posicaoMatriz = message['posicaoMatriz'];
-    externalIsolate
-        .send(_multiplicaMatriz(posicaoMatriz, novaMatrix, matrix1, matrix2));
+    externalIsolate.send(_multiplicaMatriz(
+        externalIsolate, posicaoMatriz, novaMatrix, matrix1, matrix2));
   });
 }
 
-_multiplicaMatriz(posicaoMatriz, novaMatrix, matrix1, matrix2) {
+_multiplicaMatriz(
+    externalIsolate, posicaoMatriz, novaMatrix, matrix1, matrix2) {
+  Stopwatch tempoPorIsolate = new Stopwatch()..start();
+
   int tamanhoMatriz1 = novaMatrix.length;
   for (int j = 0; j < tamanhoMatriz1; j++) {
     num soma = 0;
@@ -119,5 +121,9 @@ _multiplicaMatriz(posicaoMatriz, novaMatrix, matrix1, matrix2) {
       }
     }
   }
+
+  print(
+      "Isolate $posicaoMatriz  e nova parte de matriz ${novaMatrix[posicaoMatriz]} e demorou ${tempoPorIsolate.elapsed}");
+
   return novaMatrix[posicaoMatriz];
 }
