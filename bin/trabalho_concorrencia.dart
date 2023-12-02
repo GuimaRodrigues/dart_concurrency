@@ -2,10 +2,12 @@ import 'dart:isolate';
 import 'dart:math';
 
 void main(List<String> arguments) async {
-  int tamanhoMatriz = 100;
-  List<int> novaMatrixParalelo = List.generate(tamanhoMatriz, (index) => 0);
-  List<int> novaMatrixSequencial = List.generate(tamanhoMatriz, (index) => 0);
-  dynamic matrix1 = generateMatrix(tamanhoMatriz, tamanhoMatriz);
+  int tamanhoMatriz = 1000, linhas = 4;
+  List<int> novaMatrixParalelo =
+      List.generate(linhas, (index) => 0, growable: true);
+  List<int> novaMatrixSequencial =
+      List.generate(linhas, (index) => 0, growable: true);
+  dynamic matrix1 = generateMatrix(linhas, tamanhoMatriz);
 
   List<int> matrix2 = [];
   for (int i = 0; i < tamanhoMatriz; i++) {
@@ -46,11 +48,9 @@ generateMatrix(int rows, int cols) {
 }
 
 class ToyExemplo {
-  dynamic matrix2 = [11, 12, 13, 14];
-
   multiplicaMatrizParalelo(novaMatrixParalelo, matrix1, matrix2) async {
     dynamic retorno;
-    for (int i = 0; i < matrix1.length; i++) {
+    for (int i = 0; i < novaMatrixParalelo.length; i++) {
       var isolateListener = ReceivePort();
       retorno = isolateListener.first;
       var port = ReceivePort();
@@ -108,7 +108,7 @@ _logicaToy(SendPort message) {
 }
 
 _multiplicaMatriz(posicaoMatriz, novaMatrix, matrix1, matrix2) {
-  int tamanhoMatriz1 = matrix1.length;
+  int tamanhoMatriz1 = novaMatrix.length;
   for (int j = 0; j < tamanhoMatriz1; j++) {
     num soma = 0;
 
