@@ -2,7 +2,7 @@ import 'dart:isolate';
 import 'dart:math';
 
 void main(List<String> arguments) async {
-  int tamanhoMatriz = 1000, linhas = 5;
+  int tamanhoMatriz = 3, linhas = 2;
   List<int> novaMatrixParalelo =
       List.generate(linhas, (index) => 0, growable: true);
   List<int> novaMatrixSequencial =
@@ -68,8 +68,6 @@ class ToyExemplo {
       );
       novaMatrixParalelo[i] = await retorno;
     }
-
-    return retorno;
   }
 
   multiplicaMatrizSequencial(novaMatrixSequencial, matrix1, matrix2) async {
@@ -79,7 +77,7 @@ class ToyExemplo {
         var row = matrix1[k];
         num soma = 0;
 
-        for (int i = 0; i < tamanhoMatriz1; i++) {
+        for (int i = 0; i < matrix2.length; i++) {
           soma = soma + row[i] * matrix2[i];
           if (j <= row.length - 1) {
             novaMatrixSequencial[k] = soma;
@@ -112,7 +110,7 @@ _multiplicaMatriz(
   for (int j = 0; j < tamanhoMatriz1; j++) {
     num soma = 0;
 
-    for (int i = 0; i < tamanhoMatriz1; i++) {
+    for (int i = 0; i < matrix2.length; i++) {
       soma = soma + matrix1[i] * matrix2[i];
       if (j <= matrix1.length - 1) {
         novaMatrix[j] = soma;
