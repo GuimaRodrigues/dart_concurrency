@@ -1,15 +1,15 @@
 import 'dart:isolate';
 import 'dart:math';
 
-void main(List<String> arguments) async {
-  int tamanhoMatriz = 3, linhas = 2;
-  List<int> novaMatrixParalelo =
-      List.generate(linhas, (index) => 0, growable: true);
-  List<int> novaMatrixSequencial =
-      List.generate(linhas, (index) => 0, growable: true);
-  dynamic matrix1 = generateMatrix(linhas, tamanhoMatriz);
+int tamanhoMatriz = 100, linhas = 3;
+List<num> novaMatrixParalelo =
+    List.generate(linhas, (index) => 0, growable: true);
+List<int> novaMatrixSequencial =
+    List.generate(linhas, (index) => 0, growable: true);
+dynamic matrix1 = generateMatrix(linhas, tamanhoMatriz);
+List<int> matrix2 = [];
 
-  List<int> matrix2 = [];
+void main(List<String> arguments) async {
   for (int i = 0; i < tamanhoMatriz; i++) {
     matrix2.add(Random().nextInt(50));
   }
@@ -97,7 +97,7 @@ _logicaToy(SendPort message) {
     var externalIsolate = message['isolate'];
     List<int> matrix1 = message['matrix1'];
     List<int> matrix2 = message['matrix2'];
-    List<int> novaMatrix = message['novaMatrix'];
+    List<num> novaMatrix = message['novaMatrix'];
     int posicaoMatriz = message['posicaoMatriz'];
     externalIsolate.send(_multiplicaMatriz(
         externalIsolate, posicaoMatriz, novaMatrix, matrix1, matrix2));
