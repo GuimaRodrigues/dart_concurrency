@@ -1,15 +1,18 @@
 import 'dart:isolate';
 import 'dart:math';
 
-int tamanhoMatriz = 100, linhas = 3;
-List<num> novaMatrixParalelo =
-    List.generate(linhas, (index) => 0, growable: true);
-List<int> novaMatrixSequencial =
-    List.generate(linhas, (index) => 0, growable: true);
-dynamic matrix1 = generateMatrix(linhas, tamanhoMatriz);
-List<int> matrix2 = [];
-
 void main(List<String> arguments) async {
+  // Criando variaveis
+  int tamanhoMatriz = 10, linhas = 5;
+
+  List<num> novaMatrixParalelo =
+      List.generate(linhas, (index) => 0, growable: true);
+
+  List<int> novaMatrixSequencial =
+      List.generate(linhas, (index) => 0, growable: true);
+  dynamic matrix1 = generateMatrix(linhas, tamanhoMatriz);
+
+  List<int> matrix2 = [];
   for (int i = 0; i < tamanhoMatriz; i++) {
     matrix2.add(Random().nextInt(50));
   }
@@ -20,12 +23,15 @@ void main(List<String> arguments) async {
 
   ToyExemplo toyExemplo = ToyExemplo();
 
-  Stopwatch tempoSequencial = new Stopwatch()..start();
+  // Execução trecho sequencial
+  Stopwatch tempoSequencial = Stopwatch()..start();
   await toyExemplo.multiplicaMatrizSequencial(
       novaMatrixSequencial, matrix1, matrix2);
   print('Tempo de execução sequencial ${tempoSequencial.elapsed}');
+  print("");
 
-  Stopwatch tempoParalelo = new Stopwatch()..start();
+  // Execução trecho sequencial
+  Stopwatch tempoParalelo = Stopwatch()..start();
   await toyExemplo.multiplicaMatrizParalelo(
       novaMatrixParalelo, matrix1, matrix2);
   print('Tempo de execução paralela ${tempoParalelo.elapsed}');
@@ -35,6 +41,7 @@ void main(List<String> arguments) async {
 }
 
 generateMatrix(int rows, int cols) {
+  // Criar matriz com valores dinamicos
   List<List<int>> matrix = [];
 
   for (int i = 0; i < rows; i++) {
@@ -86,6 +93,7 @@ class ToyExemplo {
       }
     }
     print("Matriz sequencial $novaMatrixSequencial");
+    print("");
     return novaMatrixSequencial;
   }
 }
@@ -120,6 +128,7 @@ _multiplicaMatriz(
 
   print(
       "Isolate $posicaoMatriz  e nova parte de matriz ${novaMatrix[posicaoMatriz]}");
+  print("");
 
   return novaMatrix[posicaoMatriz];
 }
